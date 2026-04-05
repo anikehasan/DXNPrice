@@ -1,17 +1,17 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-    // ১. Staggered Table Animation
+
+    // ========= 1. TABLE ANIMATION =========
     const animateRows = () => {
         const rows = document.querySelectorAll('tr');
         rows.forEach((row, index) => {
             row.classList.add('stagger-row');
             setTimeout(() => {
                 row.classList.add('show');
-            }, index * 100); // প্রতি রো ১০০ মিলিসেকেন্ড পর পর আসবে
+            }, index * 100);
         });
     };
 
-    // ২. Search Filtering with Animation Re-trigger
+    // ========= 2. SEARCH =========
     const searchInput = document.getElementById('productSearch');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -21,56 +21,25 @@ document.addEventListener('DOMContentLoaded', () => {
             rows.forEach(row => {
                 const text = row.innerText.toLowerCase();
                 if (text.includes(term)) {
-                    row.style.display = '';
-                    row.classList.add('show');
+                    row.style.display = 'table-row';
                 } else {
                     row.style.display = 'none';
-                    row.classList.remove('show');
                 }
             });
         });
     }
 
-    // ৩. অটোমেটিক ক্যালকুলেশন এবং ইন্টারেকশন (উদাহরণ)
-    const qtyInputs = document.querySelectorAll('input[type="number"]');
-    qtyInputs.forEach(input => {
-        input.addEventListener('change', () => {
-            // এখানে আপনি আপনার টোটাল ক্যালকুলেশন লজিক রাখতে পারেন
-            console.log("Quantity Updated: ", input.value);
-            
-            // ছোট একটি এনিমেশন যখন ভ্যালু চেঞ্জ হবে
-            input.style.borderColor = 'var(--neon-orange)';
-            setTimeout(() => { input.style.borderColor = 'rgba(255, 107, 0, 0.3)'; }, 500);
+    // ========= 3. MEMBER NAME =========
+    const memberInput = document.getElementById("memberName");
+    if (memberInput) {
+        memberInput.addEventListener("input", (e) => {
+            document.getElementById("showName").textContent = e.target.value || "Guest";
         });
-    });
+    }
 
-    // পেজ লোড হলে অ্যানিমেশন শুরু হবে
-    animateRows();
-});
-
-
-
-// Search Logic
-function searchProducts() {
-    let input = document.getElementById('productSearch').value.toLowerCase();
-    let rows = document.querySelectorAll("tbody tr");
-
-    rows.forEach(row => {
-        let productName = row.cells[0].textContent.toLowerCase();
-        if (productName.includes(input)) {
-            row.style.display = ""; // দেখাবে
-        } else {
-            row.style.display = "none"; // লুকিয়ে ফেলবে
-        }
-    });
-}
-
-// Update showName function for the new input style
-document.getElementById("memberName").addEventListener("input", (e) => {
-    document.getElementById("showName").textContent = e.target.value || "Guest";
-});
-const officialProducts = [
-{name:"DXN RG Powder-50 g",pv:1070,dp:3455,sv:1450},
+    // ========= 4. DATA =========
+    const officialProducts = [
+      {name:"DXN RG Powder-50 g",pv:1070,dp:3455,sv:1450},
 
 {name:"DXN GL Powder-80 g",pv:770,dp:2550,sv:1071},
 
@@ -165,12 +134,11 @@ const officialProducts = [
 {name:"DXN Goji Berries",pv:625,dp:2690,sv:902},
 
 {name:"DXN OOCHA NOODLE(T Y F)",pv:235,dp:1240,sv:479}
-];
 
-const unofficialProducts = [
-        const dxnProductList = [
-  // --- HEALTH FOOD PRODUCT ---
-  { name: "RG-90", pv: 669.5, dp: 4435.2, sv: 1332.5 },
+    ];
+
+    const unofficialProducts = [
+       { name: "RG-90", pv: 669.5, dp: 4435.2, sv: 1332.5 },
   { name: "RG-30", pv: 240.5, dp: 1641.6, sv: 483.6 },
   { name: "GL-90", pv: 474.5, dp: 3155.2, sv: 946.4 },
   { name: "GL-30", pv: 162.5, dp: 1126.4, sv: 327.6 },
@@ -503,96 +471,105 @@ const unofficialProducts = [
   { name: "Evelyn Lipstick She’s One In a Billion", pv: 312.0, dp: 3808.0, sv: 783.9 },
   { name: "Evelyn Finish Powder Collections", pv: 1391.0, dp: 16896.0, sv: 3484.0 },
   { name: "Evelyn Velvet Matte Lipstick Collections", pv: 1443.0, dp: 17536.0, sv: 3604.9 }
-];
-            
-        
-      
-];
 
-const levels = [
-    { pv: 58500, percent: 25 },
-    { pv: 42250, percent: 18 },
-    { pv: 26000, percent: 15 },
-    { pv: 13000, percent: 12 },
-    { pv: 3900, percent: 9 },
-    { pv: 1300, percent: 6 }
-];
+    ];
 
-const officialTbody = document.getElementById("officialProducts");
-const unofficialTbody = document.getElementById("unofficialProducts");
+    const levels = [
+        { pv: 58500, percent: 25 },
+        { pv: 42250, percent: 18 },
+        { pv: 26000, percent: 15 },
+        { pv: 13000, percent: 12 },
+        { pv: 3900, percent: 9 },
+        { pv: 1300, percent: 6 }
+    ];
 
-function renderTable(list, container) {
-    container.innerHTML = list.map(p => `
-        <tr>
-            <td><strong>${p.name}</strong></td>
-            <td class="pv-val">${p.pv}</td>
-            <td class="dp-val">${p.dp}</td>
-            <td class="sv-val">${p.sv}</td>
-            <td><input type="number" min="0" value="0" oninput="calculate()"></td>
-        </tr>
-    `).join("");
-}
+    // ========= 5. TABLE RENDER =========
+    const officialTbody = document.getElementById("officialProducts");
+    const unofficialTbody = document.getElementById("unofficialProducts");
 
-function calculate() {
-    let totalPV = 0, totalDP = 0, totalSV = 0;
-    let summaryHTML = [];
+    function renderTable(list, container) {
+        container.innerHTML = list.map(p => `
+            <tr>
+                <td><strong>${p.name}</strong></td>
+                <td class="pv-val">${p.pv}</td>
+                <td class="dp-val">${p.dp}</td>
+                <td class="sv-val">${p.sv}</td>
+                <td><input type="number" min="0" value="0"></td>
+            </tr>
+        `).join("");
+    }
 
-    document.querySelectorAll("tbody tr").forEach(row => {
-        const qty = parseInt(row.querySelector("input").value) || 0;
-        if (qty > 0) {
-            const name = row.cells[0].textContent;
-            const pv = parseInt(row.querySelector(".pv-val").textContent);
-            const dp = parseInt(row.querySelector(".dp-val").textContent);
-            const sv = parseInt(row.querySelector(".sv-val").textContent);
+    // ========= 6. CALCULATION =========
+    function calculate() {
+        let totalPV = 0, totalDP = 0, totalSV = 0;
+        let summaryHTML = [];
 
-            totalPV += pv * qty;
-            totalDP += dp * qty;
-            totalSV += sv * qty;
+        document.querySelectorAll("tbody tr").forEach(row => {
+            const qty = parseInt(row.querySelector("input").value) || 0;
 
-            summaryHTML.push(`✔️ ${name} x ${qty} <br>`);
+            if (qty > 0) {
+                const name = row.cells[0].textContent;
+                const pv = parseFloat(row.querySelector(".pv-val").textContent);
+                const dp = parseFloat(row.querySelector(".dp-val").textContent);
+                const sv = parseFloat(row.querySelector(".sv-val").textContent);
+
+                totalPV += pv * qty;
+                totalDP += dp * qty;
+                totalSV += sv * qty;
+
+                summaryHTML.push(`✔️ ${name} x ${qty} <br>`);
+            }
+        });
+
+        animateValue("totalPV", totalPV);
+        animateValue("totalDP", totalDP);
+        animateValue("totalSV", totalSV);
+
+        document.getElementById("productSummary").innerHTML =
+            summaryHTML.length ? summaryHTML.join("") : "No product selected";
+
+        updateProgress(totalPV);
+    }
+
+    // ========= 7. VALUE UPDATE =========
+    function animateValue(id, value) {
+        document.getElementById(id).textContent = Math.round(value).toLocaleString();
+    }
+
+    // ========= 8. PROGRESS =========
+    function updateProgress(currentPV) {
+        const achieved = levels.find(l => currentPV >= l.pv);
+
+        const reversed = [...levels].reverse();
+        const nextTarget = reversed.find(l => currentPV < l.pv) || levels[0];
+
+        const posEl = document.getElementById("position");
+
+        if (achieved) {
+            posEl.innerHTML = `<span class="badge">${achieved.percent}% Achieved</span>`;
+        } else {
+            posEl.textContent = "No Position";
+        }
+
+        let progress = Math.min((currentPV / nextTarget.pv) * 100, 100);
+
+        document.getElementById("progressBar").style.width = progress + "%";
+        document.getElementById("progressText").textContent = Math.round(progress) + "%";
+    }
+
+    // ========= 9. EVENT BIND =========
+    document.addEventListener("input", (e) => {
+        if (e.target.type === "number") {
+            calculate();
         }
     });
 
-    // Update UI with animation effect
-    animateValue("totalPV", totalPV);
-    animateValue("totalDP", totalDP);
-    animateValue("totalSV", totalSV);
-
-    document.getElementById("showName").textContent = document.getElementById("memberName").value || "-";
-    document.getElementById("productSummary").innerHTML = summaryHTML.length ? summaryHTML.join("") : "No product selected";
-
-    updateProgress(totalPV);
-}
-
-function animateValue(id, endValue) {
-    const obj = document.getElementById(id);
-    obj.textContent = endValue.toLocaleString();
-}
-
-function updateProgress(currentPV) {
-    let achieved = levels.find(l => currentPV >= l.pv);
-    let nextTarget = levels.reverse().find(l => currentPV < l.pv) || levels[0];
-    levels.reverse(); // Reset order
-
-    const posEl = document.getElementById("position");
-    if (achieved) {
-        posEl.innerHTML = `<span class="badge">${achieved.percent}% Achieved</span>`;
-    } else {
-        posEl.textContent = "No Position";
-    }
-
-    let progress = Math.min((currentPV / nextTarget.pv) * 100, 100);
-    document.getElementById("progressBar").style.width = progress + "%";
-    document.getElementById("progressText").textContent = Math.round(progress) + "%";
-}
-
-// Initializing
-document.addEventListener("DOMContentLoaded", () => {
+    // ========= INIT =========
     renderTable(officialProducts, officialTbody);
     renderTable(unofficialProducts, unofficialTbody);
-    document.getElementById("today").textContent = new Date().toLocaleDateString();
-    document.getElementById("memberName").addEventListener("input", () => {
-        document.getElementById("showName").textContent = document.getElementById("memberName").value || "-";
-    });
 
+    document.getElementById("today").textContent =
+        new Date().toLocaleDateString();
+
+    animateRows();
 });
