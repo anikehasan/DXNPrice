@@ -1,113 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Product Calculator</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c2d">
+  <title>DXN Price & Profit Studio</title>
+  <script>/* Apply before first paint; storage may be blocked on file://. */
+    try { const t = localStorage.getItem('dxn-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="container">
-    <header class="glass-card main-header-premium">
-        <div class="header-overlay"></div>
-        <div class="header-content">
-            <h1>🚀 <span class="gradient-text">DXN Price List </span></h1>
-            <h2><span class="gradient-text">Grow With CA</span></h2>
-            <div class="header-grid">
-                <div class="input-group-premium">
-                    <input id="memberName" type="text" required>
-                    <label>Member Name</label>
-                    <span class="bar"></span>
-                </div>
-                <div class="meta-info">
-                    <div class="chip">📅 <span id="today">-</span></div>
-                    <div class="chip active-user">👤 <span id="showName">Guest</span></div>
-                </div>
-            </div>
-        </div>
+  <a class="skip-link" href="#catalog">Skip to products</a>
+  <aside class="sidebar">
+    <a href="#catalog" class="brand" aria-label="DXN Studio home"><span class="brand-mark" aria-hidden="true">✳</span><span>DXN <b>Studio</b><small>PRICE & PROFIT</small></span></a>
+    <div class="side-label">YOUR WORKSPACE</div>
+    <nav class="side-nav" aria-label="Workspace"><span class="nav-indicator" aria-hidden="true"></span><a href="#catalog" class="active" data-nav="catalog" aria-current="page"><span aria-hidden="true">▦</span> Catalog</a><a href="#summary" data-nav="summary"><span aria-hidden="true">◫</span> Order summary <span class="nav-count" id="navCount">0</span></a></nav>
+    <div class="side-note"><span class="seed" aria-hidden="true">✧</span><h2>Small choices.<br>Growing possibilities.</h2><p>Your everyday essentials.<br>Your next opportunity.</p><span class="offline"><i></i> Works entirely offline</span></div>
+    <small class="side-footer">Grow With CA<br>Independent DXN calculation tool</small>
+  </aside>
+  <main>
+    <header class="top entrance" style="--i:0">
+      <div><div class="eyebrow">WELLNESS MEETS POSSIBILITY</div><h1>Price & <span>Profit Studio.</span></h1><p>Build a better order. See the bigger picture.</p></div>
+      <div class="top-actions"><span id="today"></span><button id="themeToggle" class="icon-button" aria-label="Switch color theme" title="Switch color theme"><span id="themeIcon" aria-hidden="true">◐</span><span id="themeLabel">Theme</span></button></div>
     </header>
-    
-    <div class="search-container">
-        <input type="text" id="productSearch" placeholder="🔍 Search products by name..." onkeyup="searchProducts()">
-    </div>
 
-    <main class="content-grid">
-        <section class="glass-card section-card">
-            <h2>Official Products</h2>
-            <div class="table-scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>PV</th>
-                            <th>DP</th>
-                            <th>SV</th>
-                            <th>Qty</th>
-                        </tr>
-                    </thead>
-                    <tbody id="officialProducts"></tbody>
-                </table>
-            </div>
-        </section>
+    <section class="stats" aria-label="Order totals">
+      <article class="stat entrance" style="--i:1"><div class="stat-top"><span>Total purchase</span><span class="stat-symbol" aria-hidden="true">↙</span></div><strong id="totalDP">৳0</strong><small>Dealer price × quantity</small></article>
+      <article class="stat entrance" style="--i:2"><div class="stat-top"><span>Total retail</span><span class="stat-symbol" aria-hidden="true">↗</span></div><strong id="totalMRP">৳0</strong><small>MRP × quantity</small></article>
+      <article class="stat profit-stat entrance" style="--i:3"><span class="profit-glow" aria-hidden="true"></span><div class="stat-top"><span>Gross profit</span><span class="stat-symbol" aria-hidden="true">✳</span></div><strong id="totalProfit">৳0</strong><small id="marginLabel">0% markup on cost</small><span class="profit-caption">ROOM TO GROW</span></article>
+      <article class="stat point-stat entrance" style="--i:4"><div class="stat-top"><span>Points & sales value</span><span class="stat-symbol" aria-hidden="true">◎</span></div><div class="points"><div><strong id="totalPV">0</strong><small>PV · Points</small></div><div><strong id="totalSV">0</strong><small>SV · Sales value</small></div></div></article>
+    </section>
+    <div id="totalsLive" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
-        <section class="glass-card section-card">
-            <h2>Unofficial Products  এই পণ্যগুলির দাম পরিবর্তনশীল। </h2>
-            <div class="summary-box">
-                <strong>বিঃদ্রঃ:</strong> আমাদের পণ্যসমূহ সরাসরি মালয়েশিয়া থেকে আমদানিকৃত। বর্তমান কারেন্সি রেট ও শিপিং খরচ অনুযায়ী পণ্যের দাম পরিবর্তনশীল।
-            </div>
-            <div class="table-scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>PV</th>
-                            <th>DP</th>
-                            <th>SV</th>
-                            <th>Qty</th>
-                        </tr>
-                    </thead>
-                    <tbody id="unofficialProducts"></tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+    <section id="catalog" class="catalog entrance" style="--i:5" aria-labelledby="catalogTitle">
+      <div class="section-head"><div><div class="eyebrow">THE EVERYDAY COLLECTION</div><h2 id="catalogTitle">Find your next essential<span>.</span></h2></div><span class="catalog-note">Transparent prices. Clear possibilities.</span></div>
+      <div class="toolbar"><label class="search"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="productSearch" type="search" placeholder="Search products or code…" aria-label="Search product name or code"><kbd aria-hidden="true">/</kbd></label><label class="sort"><span>Sort by</span><select id="sortFilter"><option value="default">Default order</option><option value="profit">Highest profit</option><option value="priceAsc">Lowest MRP</option><option value="priceDesc">Highest MRP</option><option value="pv">Highest PV</option><option value="sv">Highest SV</option></select></label></div>
+      <div id="categoryChips" class="chips" role="group" aria-label="Filter by category"></div>
+      <div class="results-bar"><span id="productCount" role="status" aria-live="polite"></span><label class="selected-switch"><input id="selectedOnly" type="checkbox"><span class="switch" aria-hidden="true"></span> Selected only</label></div>
+      <div class="table-wrap"><table class="product-table"><caption class="sr-only">Product prices and quantities. Tap a product name or use the quantity controls to add items.</caption><thead><tr><th scope="col">Product</th><th scope="col">DP</th><th scope="col">MRP</th><th scope="col">Profit / unit</th><th scope="col">SV</th><th scope="col">PV</th><th scope="col">Your quantity</th></tr></thead><tbody id="products"></tbody></table>
+        <div id="empty" class="empty" hidden><svg aria-hidden="true" width="96" height="90" viewBox="0 0 96 90" fill="none"><circle cx="45" cy="44" r="34" fill="currentColor" opacity=".07"/><path d="M27 39h40l-4 34H31z" stroke="currentColor" stroke-width="2"/><path d="M37 40V30a10 10 0 0 1 20 0v10" stroke="currentColor" stroke-width="2"/><path d="M46 57c-13 1-16-10-16-10 12-2 17 3 16 10Zm0 0c0-12 13-15 13-15 1 12-5 16-13 15Z" fill="currentColor" opacity=".5"/><path d="M76 15v10m-5-5h10" stroke="currentColor" stroke-width="2"/></svg><h3>No products in this view.</h3><p>Try another search or add items with “Selected only” off.</p><button id="resetFilters" class="button secondary">Reset filters</button></div>
+      </div>
+      <div class="table-note"><span>↗ Tap a product to add one · use +5 / +10 for more.</span><span>Profit badges: &lt;15% low · 15–25% medium · &gt;25% high markup</span></div>
+      <p class="disclaimer">Prices are based on your supplied list, not independently verified against DXN. Gross profit assumes sales at full MRP, before expenses. SV and PV are separate values, not cash profit.</p>
+    </section>
 
-    <aside class="glass-card summary-card">
-        <div class="totals-grid">
-            <div class="stat-box">
-                <small>Total PV</small>
-                <div id="totalPV" class="value">0</div>
-            </div>
-            <div class="stat-box">
-                <small>Total DP</small>
-                <div id="totalDP" class="value">0</div>
-            </div>
-            <div class="stat-box">
-                <small>Total SV</small>
-                <div id="totalSV" class="value">0</div>
-            </div>
-        </div>
-
-        <div class="progress-section">
-            <div class="pos-header">
-                <strong>Current Position:</strong>
-                <span id="position">No Position</span>
-            </div>
-            <div class="progress-container">
-                <div id="progressBar" class="progress-bar"></div>
-            </div>
-            <p class="progress-label">Next Level Progress: <span id="progressText">0%</span></p>
-        </div>
-
-        <div class="summary-details">
-            <h3>📝 Selection Summary</h3>
-            <div id="productSummary" class="summary-box">No product selected</div>
-        </div>
-    </aside>
-</div>
-
-<script src="script.js"></script>
+    <section id="summary" class="summary-section" aria-labelledby="summaryTitle" tabindex="-1">
+      <div class="section-head"><div><div class="eyebrow">FROM SELECTION TO POSSIBILITY</div><h2 id="summaryTitle">Your order, at a glance<span>.</span></h2></div><button id="resetBtn" class="button subtle">↺ Clear order</button></div>
+      <div class="summary-layout"><div class="order-main"><div class="customer-line"><label for="memberName">Customer / member<input id="memberName" placeholder="Enter customer name" maxlength="120" autocomplete="name"></label><div class="order-meta"><span id="orderDate"></span><strong><span id="totalQty">0</span> units selected</strong></div></div><div class="order-table-head" aria-hidden="true"><span>Product</span><span>Qty</span><span>Retail</span><span>Profit</span></div><div id="orderItems" class="order-items"></div><div id="orderEmpty" class="order-empty"><span aria-hidden="true">✳</span><h3>Every order starts with one.</h3><p>Add your first essential from the catalog.</p><a href="#catalog" class="button secondary">Explore the collection ↗</a></div></div>
+      <aside class="receipt" aria-label="Order receipt"><div class="receipt-top"><span>SELECTION TOTALS</span><span aria-hidden="true">✧</span></div><dl><div><dt>Purchase · DP</dt><dd id="receiptDP">৳0</dd></div><div><dt>Retail · MRP</dt><dd id="receiptMRP">৳0</dd></div><div><dt>PV / SV</dt><dd id="receiptPoints">0 / 0</dd></div></dl><div class="receipt-profit"><span>Gross profit</span><strong id="receiptProfit">৳0</strong><small>Before business expenses</small></div><p class="receipt-customer">Prepared for <strong id="showName">Guest</strong></p><div class="copy-buttons"><button id="copyBtn" class="button secondary"><span class="copy-icon" aria-hidden="true">⧉</span><span>Copy summary</span><svg class="check" aria-hidden="true" viewBox="0 0 20 20"><path d="m4 10 4 4 8-8"/></svg></button><button id="whatsappBtn" class="button secondary"><span aria-hidden="true">↗</span><span>Copy for WhatsApp</span><svg class="check" aria-hidden="true" viewBox="0 0 20 20"><path d="m4 10 4 4 8-8"/></svg></button></div><button id="printBtn" class="button primary">Print / Save PDF <span aria-hidden="true">↗</span></button></aside></div>
+    </section>
+    <footer><span class="footer-brand">DXN <b>Studio</b> <span aria-hidden="true">✳</span></span><span>Grow With CA · Independent price & profit tool</span><span class="saved-note" id="saveStatus">Saved on this device</span></footer>
+  </main>
+  <a id="orderBar" class="floating-order" href="#summary" aria-label="Open order summary"><span><b id="barQty">0</b> units selected<small>View order summary</small></span><strong id="barProfit">৳0</strong><span aria-hidden="true">↗</span></a>
+  <nav class="bottom-nav" aria-label="Mobile navigation"><a class="active" href="#catalog" data-nav="catalog" aria-current="page"><span aria-hidden="true">▦</span> Catalog</a><a href="#summary" data-nav="summary"><span aria-hidden="true">◫</span> Summary <span id="mobileCount" class="nav-count">0</span></a></nav>
+  <div id="toast" class="toast" role="status" aria-live="polite"><span aria-hidden="true">✓</span><span id="toastText"></span></div>
+  <script src="data.js"></script><script src="script.js"></script>
 </body>
 </html>
